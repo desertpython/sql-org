@@ -1,1 +1,1 @@
-# sql-org
+The new "sql-org" project has been introduced with the intent of utilizing MYSQL2, Inquirer, the console.table package, as well as node.js and express.js. The project will assist management in the preparation of workplace activities by accurately mapping out the organization's structure of employees and their roles within the company.
