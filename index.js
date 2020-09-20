@@ -347,6 +347,75 @@ function addRole() {
         })
     })
 }
+function removeRole() {
+  db.findAllRoles()
+    .then(([rows]) => {
+      let roles = rows;
+      const roleChoices = roles.map(({ id, title }) => ({
+        name: title,
+        value: id
+      }));
+
+      prompt([
+        {
+          type: "list",
+          name: "roleId",
+          message:
+            "Which role do you want to remove? (Warning: This will also remove employees)",
+          choices: roleChoices
+        }
+      ])
+        .then(res => db.removeRole(res.roleId))
+        .then(() => console.log("Removed role from the database"))
+        .then(() => loadMainPrompts())
+    })
+}
+function viewDepartments() {
+  db.findAllDepartments()
+    .then(([rows]) => {
+      let departments = rows;
+      console.log("\n");
+      console.table(departments);
+    })
+    .then(() => inquirer.prompt());
+}
+function addDepartment() {
+  prompt([
+    {
+      name: "name",
+      message: "What is the name of the department?"
+    }
+  ])
+    .then(res => {
+      let name = res;
+      db.createDepartment(name)
+        .then(() => console.log(`Added ${name.name} to the database`))
+        .then(() => inquirer.prompt())
+    })
+}
+function removeDepartment() {
+  db.findAllDepartments()
+    .then(([rows]) => {
+      let departments = rows;
+      const departmentChoices = departments.map(({ id, name }) => ({
+        name: name,
+        value: id
+      }));
+
+      prompt({
+        type: "list",
+        name: "departmentId",
+        message:
+          "Which department would you like to remove? (Warning: This will also remove associated roles and employees)",
+        choices: departmentChoices
+      })
+        .then(res => db.removeDepartment(res.departmentId))
+        .then(() => console.log(`Removed department from the database`))
+        .then(() => inquirer.prompt())
+    })
+}
+
+
 
 
 
