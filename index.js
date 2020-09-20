@@ -1,5 +1,6 @@
 const inquirer = require("inquirer")
-const express = require('express')
+const express = require('express');
+const { in } = require("sequelize/types/lib/operators");
 const app = express()
 
 const Port = 3001
@@ -305,6 +306,48 @@ function updateEmployeeManager() {
         })
     })
 }
+function viewRoles() {
+  db.findAllRoles()
+    .then(([rows]) => {
+      let roles = rows;
+      console.log("\n");
+      console.table(roles);
+    })
+    .then(() => inquirer.prompt());
+}
+function addRole() {
+  db.findAllDepartments()
+    .then(([rows]) => {
+      let departments = rows;
+      const departmentChoices = departments.map(({ id, name }) => ({
+        name: name,
+        value: id
+      }));
+
+      prompt([
+        {
+          name: "title",
+          message: "What is the name of the role?"
+        },
+        {
+          name: "salary",
+          message: "What is the salary of the role?"
+        },
+        {
+          type: "list",
+          name: "department_id",
+          message: "Which department does the role belong to?",
+          choices: departmentChoices
+        }
+      ])
+        .then(role => {
+          db.createRole(role)
+            .then(() => console.log(`Added ${role.title} to the database`))
+            .then(() => inquirer.prompt())
+        })
+    })
+}
+
 
 
 
