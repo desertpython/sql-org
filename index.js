@@ -1,39 +1,88 @@
 const inquirer = require("inquirer")
+const express = require('express')
+const app = express()
+
+const Port = 3001
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
+app.get('/', function (req, res) {
+  res.send('Hello World')
+})
+ 
 
 
 inquirer
   .prompt([
     {
-      name: "user_name",
-      type: "checkbox",
-      message: "View all departments, View all roles, View all employees, Add a department, Add a role, Add an employee, Update an employee role or name?",
-    },
-    {
-    name: "user_name",
-    type: "input",
-    message: "What is your name?",
-      },
-      {
-    name: "user_name",
-    type: "input",
-    message: "What is your name?",
-      },
-      {
-    name: "user_name",
-    type: "input",
-    message: "What is your name?",
-      },
-      {
-    name: "user_name",
-    type: "input",
-    message: "What is your name?",
-      },
-      {
-    name: "user_name",
-    type: "input",
-    message: "What is your name?",
+      type: "list",
+      name: "choice",
+      message: "What would you like to do?",
+      choices: [
+        {
+          name: "View All Employees",
+          value: "VIEW_EMPLOYEES"
         },
-  ]);
+        {
+          name: "View All Employees By Department",
+          value: "VIEW_EMPLOYEES_BY_DEPARTMENT"
+        },
+        {
+          name: "View All Employees By Manager",
+          value: "VIEW_EMPLOYEES_BY_MANAGER"
+        },
+        {
+          name: "Add Employee",
+          value: "ADD_EMPLOYEE"
+        },
+        {
+          name: "Remove Employee",
+          value: "REMOVE_EMPLOYEE"
+        },
+        {
+          name: "Update Employee Role",
+          value: "UPDATE_EMPLOYEE_ROLE"
+        },
+        {
+          name: "Update Employee Manager",
+          value: "UPDATE_EMPLOYEE_MANAGER"
+        },
+        {
+          name: "View All Roles",
+          value: "VIEW_ROLES"
+        },
+        {
+          name: "Add Role",
+          value: "ADD_ROLE"
+        },
+        {
+          name: "Remove Role",
+          value: "REMOVE_ROLE"
+        },
+        {
+          name: "View All Departments",
+          value: "VIEW_DEPARTMENTS"
+        },
+        {
+          name: "Add Department",
+          value: "ADD_DEPARTMENT"
+        },
+        {
+          name: "Remove Department",
+          value: "REMOVE_DEPARTMENT"
+        },
+        {
+          name: "View Total Utilized Budget By Department",
+          value: "VIEW_UTILIZED_BUDGET_BY_DEPARTMENT"
+        },
+        {
+          name: "Quit",
+          value: "QUIT"
+        }
+      ]
+    }
 
 
 
+ 
+app.listen(3001);
