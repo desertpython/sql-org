@@ -168,6 +168,37 @@ function viewEmployeesByDepartment() {
         .then(() => inquirer.prompt())
     });
 }
+function viewEmployeesByManager() {
+  db.findAllEmployees()
+    .then(([rows]) => {
+      let managers = rows;
+      const managerChoices = managers.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+      }));
+
+      prompt([
+        {
+          type: "list",
+          name: "managerId",
+          message: "Which employee do you want to see direct reports for?",
+          choices: managerChoices
+        }
+      ])
+        .then(res => db.findAllEmployeesByManager(res.managerId))
+        .then(([rows]) => {
+          let employees = rows;
+          console.log("\n");
+          if (employees.length === 0) {
+            console.log("The selected employee has no direct reports");
+          } else {
+            console.table(employees);
+          }
+        })
+        .then(() => inquirer.prompt())
+    });
+}
+
 
 
 
