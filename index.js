@@ -1,9 +1,9 @@
 const inquirer = require("inquirer")
 const express = require('express');
-const { in } = require("sequelize/types/lib/operators");
-const app = express()
-
-const Port = 3001
+// const { in } = require("sequelize/types/lib/operators");
+const app = express();
+const db = require('db/connection');
+const Port = 3001;
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
