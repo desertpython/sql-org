@@ -1,8 +1,8 @@
-const inquirer = require("inquirer")
+const {prompt} = require("inquirer")
 const express = require('express');
 // const { in } = require("sequelize/types/lib/operators");
 const app = express();
-const db = require('db/connection');
+const db = require('./db');
 const Port = 3001;
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -11,10 +11,10 @@ app.get('/', function (req, res) {
   res.send('Hello World')
 })
  
+questions();
 
-
-inquirer
-  .prompt([
+function questions (){
+  prompt([
     {
       type: "list",
       name: "choice",
@@ -81,7 +81,7 @@ inquirer
           value: "QUIT"
         }
       ]
-    }
+  }
   ]).then(res => {
     let choice = res.choice;
     // Call the appropriate function depending on what the user chose
@@ -133,7 +133,7 @@ inquirer
     }
   }
   )
-
+}
 function viewEmployees() {
   db.findAllEmployees()
     .then(([rows]) => {
@@ -141,7 +141,7 @@ function viewEmployees() {
       console.log("\n");
       console.table(employees);
     })
-    .then(() => inquirer.prompt());
+    .then(() => questions());
 }
 function viewEmployeesByDepartment() {
   db.findAllDepartments()
